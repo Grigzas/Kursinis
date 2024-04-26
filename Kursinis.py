@@ -1,9 +1,12 @@
 plotis = 3
-lenta = [["- ", "- ", "- "], 
-         ["- ", "- ", "- "], 
-         ["- ", "- ", "- "]]
+lenta = [
+    ["- ", "- ", "- "], 
+    ["- ", "- ", "- "], 
+    ["- ", "- ", "- "]
+]
 
-
+def format_lenta(lenta):
+    return "\n".join([" ".join(i) for i in lenta])
 
 k = 0
 def increase_counter():
@@ -18,6 +21,16 @@ def reset_counter():
     global k
     k = 0
 
+def save_Lenta():
+    File1 = open("Lenta.txt", "w")
+    File1.write(format_lenta(lenta))
+    File1.close()
+
+def print_Lenta():
+    File1 = open("Lenta.txt", "r")
+    for i in File1:
+        print(i.strip())
+    File1.close()
 
 
 class Game:
@@ -36,6 +49,7 @@ class Game:
                 print(lenta[i][j], end="  ")
             print()
         print("1 žaidėjas pradeda žaidimą")
+
 
 
 
@@ -173,25 +187,31 @@ class DiagonalWin(Win):
         else:
             return False
 
-
-
-
+#text = input("Įveskite ėjimo koordinates:")
+#sk = re.findall('\d+', text)
+#print(sk[0])
+#raide = re.findall(r'[a-zA-Z]+', text)
+#print(raide[0])
+#if text != "":
+    #print("Text")
 
 
 game = Game
-player1 = Player
-player2 = Player
+player = Player
 
 game.new_game()
 
-#player1.move("A", 1)
+#player.move("A", 1)
 
-#player2.move("B", 2)
+#player.move("B", 2)
 
-#player1.move("B", 3)
+#player.move("B", 3)
 
-#player2.move("A", 3)
+#player.move("A", 3)
 
-#player1.move("A", 2)
+#player.move("A", 2)
 
-#player2.move("C", 1)
+#player.move("C", 1)
+
+#save_Lenta()
+#print_Lenta()
