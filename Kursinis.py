@@ -1,4 +1,15 @@
+import re
+
+
+
+
+
 plotis = 3
+
+k = 0
+
+sk = []
+
 lenta = [
     ["- ", "- ", "- "], 
     ["- ", "- ", "- "], 
@@ -8,141 +19,286 @@ lenta = [
 def format_lenta(lenta):
     return "\n".join([" ".join(i) for i in lenta])
 
-k = 0
-def increase_counter():
-    global k
-    k += 1
-
-def decrease_counter():
-    global k
-    k -= 1
-
-def reset_counter():
-    global k
-    k = 0
-
-def save_Lenta():
-    File1 = open("Lenta.txt", "w")
-    File1.write(format_lenta(lenta))
-    File1.close()
-
-def print_Lenta():
-    File1 = open("Lenta.txt", "r")
-    for i in File1:
-        print(i.strip())
-    File1.close()
 
 
-class Game:
-    def __init__(self):
-        self.lenta = lenta
 
-    def new_game():
-        reset_counter()
-        for i in range(plotis):
-            for j in range(plotis):
-                lenta[i][j] = "- "
+
+class Counter:
+    def increase_counter():
+        global k
+        k += 1
+
+    def decrease_counter():
+        global k
+        k -= 1
+
+    def reset_counter():
+        global k
+        k = 0
+
+
+
+
+
+class File:
+    def save_game():
+        File1 = open("Lenta.txt", "w")
+        File1.write(format_lenta(lenta))
+        File1.close()
+        text = input("Jeigu norite pamatyti ankstesnio žaidimo lentą parašykite 3\nJeigu norite pradėti žaidimą iš naujo parašykite 2\n:")
+        if text == "3":
+            File.print_saved_game()
+        elif text == "2":
+            Game.game()
+        else:
+            print("Netinkamas užrašas")
+            File.save_game()
+
+    def print_saved_game():
+        File1 = open("Lenta.txt", "r")
+        for i in File1:
+            print(i.strip())
+        File1.close()
+        text = input("Jeigu norite pradėti žaidimą iš naujo parašykite 2\n:")
+        if text == "2":
+            Game.game()
+        else:
+            print("Netinkamas užrašas")
+            File.print_saved_game()
+
+
+
+
+
+class Lenta:
+    def print_lenta():
         print("   1   2   3")
         for i in range(plotis):
             print(chr(65 + i), end="  ")
             for j in range(plotis):
                 print(lenta[i][j], end="  ")
             print()
+
+    def new_game():
+        Counter.reset_counter()
+        sk.clear()
+        for i in range(plotis):
+            for j in range(plotis):
+                lenta[i][j] = "- "
+        Lenta.print_lenta()
         print("1 žaidėjas pradeda žaidimą")
 
+    def after_game():
+        text = input("Jeigu norite išsaugoti šio žaidimo lentą, parašykite 0\nJeigu norite pamatyti ankstesnio žaidimo lentą parašykite 3\nJeigu norite pradėti žaidimą iš naujo parašykite 2\n:")
+        if text == "3":
+            File.print_saved_game()
+        elif text == "2":
+            Game.game()
+        elif text == "0":
+            File.save_game()
+        else:
+            print("Netinkamas užrašas")
+            Lenta.after_game()
 
 
 
-class Player:
-    def  __init__(self):
+
+
+class Game:
+    def __init__(self):
         self.lenta = lenta
 
-    @classmethod
-    def move(cls, a, b):
-        if a == "A":
-            if lenta[0][b-1] != "- ":
-                print("Šis laukelis užimtas, pasirinkite kitą laukelį")
-            else:
-                if k == 0:
-                    lenta[0][b-1] = "X "
-                else:
-                    lenta[0][b-1] = "O "
-                print("   1   2   3")
-                for i in range(plotis):
-                    print(chr(65 + i), end="  ")
-                    for j in range(plotis):
-                        print(lenta[i][j], end="  ")
-                    print()
-                if cls.check_win(lenta):
-                    if k == 0:
-                        print("1 žaidėjas laimėjo")
-                    else:
-                        print("2 žaidėjas laimėjo")
-                if cls.check_win(lenta):
-                    return
-                else:
-                    if k == 0:
-                        print("2 žaidėjo eilė")
-                        increase_counter()
-                    else:
-                        print("1 žaidėjo eilė")
-                        decrease_counter()
-        elif a == "B":
-            if lenta[1][b-1] != "- ":
-                print("Šis laukelis užimtas, pasirinkite kitą laukelį")
-            else:
-                if k == 0:
-                    lenta[1][b-1] = "X "
-                else:
-                    lenta[1][b-1] = "O "
-                print("   1   2   3")
-                for i in range(plotis):
-                    print(chr(65 + i), end="  ")
-                    for j in range(plotis):
-                        print(lenta[i][j], end="  ")
-                    print()
-                if cls.check_win(lenta):
-                    if k == 0:
-                        print("1 žaidėjas laimėjo")
-                    else:
-                        print("2 žaidėjas laimėjo")
-                if cls.check_win(lenta):
-                    return
-                else:
-                    if k == 0:
-                        print("2 žaidėjo eilė")
-                        increase_counter()
-                    else:
-                        print("1 žaidėjo eilė")
-                        decrease_counter()
+    def start():
+        text = input("Jeigu norite pamatyti praeito žaidimo lentą, parašykite 0\nJeigu norite pradėti naują žaidimą parašykite 2 (atminkite, jeigu žaidimo eigoje norite pradėti žaidimą iš naujo arba žaidimas baigėsi lygiosiomis, parašykite 1)\n:")
+        if text == "0":
+            File.print_saved_game()
+        elif text == "2":
+            Game.game()
         else:
-            if lenta[2][b-1] != "- ":
-                print("Šis laukelis užimtas, pasirinkite kitą laukelį")
-            else:
-                if k == 0:
-                    lenta[2][b-1] = "X "
+            print("Netinkamas užrašas")
+            Game.start()
+
+    @classmethod
+    def game(cls):
+            Lenta.new_game()
+            text = input("Įveskite ėjimo koordinates:")
+            if text != "":
+                if text == "1":
+                    Game.game()
                 else:
-                    lenta[2][b-1] = "O "
-                print("   1   2   3")
-                for i in range(plotis):
-                    print(chr(65 + i), end="  ")
-                    for j in range(plotis):
-                        print(lenta[i][j], end="  ")
-                    print()
-                if cls.check_win(lenta):
+                    for char in text:
+                        if char.isdigit():
+                            sk.append(int(char))
+                    raide = re.findall(r'[a-zA-Z]+', text)
+            if text == "1":
+                return
+            if raide[0] == "A":
+                if lenta[0][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    Game.move()
+                else:
                     if k == 0:
-                        print("1 žaidėjas laimėjo")
+                        lenta[0][sk[0] - 1] = "X "
                     else:
-                        print("2 žaidėjas laimėjo")
-                if cls.check_win(lenta):
-                    return
-                else:
+                        lenta[0][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
                     if k == 0:
+                        sk.clear()
                         print("2 žaidėjo eilė")
-                        increase_counter()
+                        Counter.increase_counter()
+                        Game.move()
                     else:
+                        sk.clear()
                         print("1 žaidėjo eilė")
-                        decrease_counter()
+                        Counter.decrease_counter()
+                        Game.move()
+
+            elif raide[0] == "B":
+                if lenta[1][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    Game.move()
+                else:
+                    if k == 0:
+                        lenta[1][sk[0] - 1] = "X "
+                    else:
+                        lenta[1][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
+                    if k == 0:
+                        sk.clear()
+                        print("2 žaidėjo eilė")
+                        Counter.increase_counter()
+                        Game.move()
+                    else:
+                        sk.clear()
+                        print("1 žaidėjo eilė")
+                        Counter.decrease_counter()
+                        Game.move()
+
+            else:
+                if lenta[2][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    Game.move()
+                else:
+                    if k == 0:
+                        lenta[2][sk[0] - 1] = "X "
+                    else:
+                        lenta[2][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
+                    if k == 0:
+                        sk.clear()
+                        print("2 žaidėjo eilė")
+                        Counter.increase_counter()
+                        Game.move()
+                    else:
+                        sk.clear()
+                        print("1 žaidėjo eilė")
+                        Counter.decrease_counter()
+                        Game.move()
+
+    @classmethod
+    def move(cls):
+            text = input("Įveskite ėjimo koordinates:")
+            if text != "":
+                if text == "1":
+                    Game.game()
+                else:
+                    for char in text:
+                        if char.isdigit():
+                            sk.append(int(char))
+                    raide = re.findall(r'[a-zA-Z]+', text)
+            if text == "1":
+                return
+            if raide[0] == "A":
+                if lenta[0][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    cls.move()
+                else:
+                    if k == 0:
+                        lenta[0][sk[0] - 1] = "X "
+                    else:
+                        lenta[0][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
+                    if cls.check_win(lenta):
+                        if k == 0:
+                            print("1 žaidėjas laimėjo")
+                        else:
+                            print("2 žaidėjas laimėjo")
+                        Lenta.after_game()
+                    if cls.check_win(lenta):
+                        return
+                    else:
+                        if k == 0:
+                            sk.clear()
+                            print("2 žaidėjo eilė")
+                            Counter.increase_counter()
+                            cls.move()
+                        else:
+                            sk.clear()
+                            print("1 žaidėjo eilė")
+                            Counter.decrease_counter()
+                            cls.move()
+
+            elif raide[0] == "B":
+                if lenta[1][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    cls.move()
+                else:
+                    if k == 0:
+                        lenta[1][sk[0] - 1] = "X "
+                    else:
+                        lenta[1][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
+                    if cls.check_win(lenta):
+                        if k == 0:
+                            print("1 žaidėjas laimėjo")
+                        else:
+                            print("2 žaidėjas laimėjo")
+                        Lenta.after_game()
+                    if cls.check_win(lenta):
+                        return
+                    else:
+                        if k == 0:
+                            sk.clear()
+                            print("2 žaidėjo eilė")
+                            Counter.increase_counter()
+                            cls.move()
+                        else:
+                            sk.clear()
+                            print("1 žaidėjo eilė")
+                            Counter.decrease_counter()
+                            cls.move()
+
+            else:
+                if lenta[2][sk[0] - 1] != "- ":
+                    print("Šis laukelis užimtas, pasirinkite kitą laukelį")
+                    cls.move()
+                else:
+                    if k == 0:
+                        lenta[2][sk[0] - 1] = "X "
+                    else:
+                        lenta[2][sk[0] - 1] = "O "
+                    Lenta.print_lenta()
+                    if cls.check_win(lenta):
+                        if k == 0:
+                            print("1 žaidėjas laimėjo")
+                        else:
+                            print("2 žaidėjas laimėjo")
+                        Lenta.after_game()
+                    if cls.check_win(lenta):
+                        return
+                    else:
+                        if k == 0:
+                            sk.clear()
+                            print("2 žaidėjo eilė")
+                            Counter.increase_counter()
+                            cls.move()
+                        else:
+                            sk.clear()
+                            print("1 žaidėjo eilė")
+                            Counter.decrease_counter()
+                            cls.move()
+     
+
 
 
 
@@ -160,6 +316,8 @@ class Player:
 
 
 
+
+
 class Win:
     def check_win(self):
         raise NotImplementedError
@@ -169,16 +327,22 @@ class HorizontalWin(Win):
         for i in lenta:
             if all(cell == i[0] for cell in i) and i[0] != "- ":
                 return True
-            else:
-                return False
+            elif all(cell == i[1] for cell in i) and i[1] != "- ":
+                return True
+            elif all(cell == i[2] for cell in i) and i[2] != "- ":
+                return True
+        return False
         
 class VerticalWin(Win):
     def check_win(self, lenta):
         for j in range(3):
             if all(i[j] == lenta[0][j] for i in lenta) and lenta[0][j] != "- ":
                 return True
-            else:
-                return False
+            elif all(i[j] == lenta[1][j] for i in lenta) and lenta[1][j] != "- ":
+                return True
+            elif all(i[j] == lenta[2][j] for i in lenta) and lenta[2][j] != "- ":
+                return True
+        return False
     
 class DiagonalWin(Win):
     def check_win(self, lenta):
@@ -187,31 +351,9 @@ class DiagonalWin(Win):
         else:
             return False
 
-#text = input("Įveskite ėjimo koordinates:")
-#sk = re.findall('\d+', text)
-#print(sk[0])
-#raide = re.findall(r'[a-zA-Z]+', text)
-#print(raide[0])
-#if text != "":
-    #print("Text")
+
+
 
 
 game = Game
-player = Player
-
-game.new_game()
-
-#player.move("A", 1)
-
-#player.move("B", 2)
-
-#player.move("B", 3)
-
-#player.move("A", 3)
-
-#player.move("A", 2)
-
-#player.move("C", 1)
-
-#save_Lenta()
-#print_Lenta()
+game.start()
