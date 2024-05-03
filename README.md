@@ -8,6 +8,7 @@ My application is a Tic-Tac-Toe game. To start the program, you have to run the 
 ### Body/Analysis
 
 I have used inheritance and builder design pattern while coding win condition class:
+
 ```
 class Win:
     def check_win(self):
@@ -53,9 +54,11 @@ Inheritance was achieved with check_win method:<br>
             return True
         else:
             return False
+
 ```
 <br>
 Encapsulation was achieved with Game class:
+
 ```
 class Game:
     def __init__(self):
@@ -70,9 +73,11 @@ class Game:
         else:
             print("Netinkamas užrašas")
             Game.start()
+
 ```
 <br>
 While, reading from file and writing to file is done with File class:
+
 ```
 class File:
     def save_game():
@@ -99,8 +104,8 @@ class File:
         else:
             print("Netinkamas užrašas")
             File.print_saved_game()
-```
 
+```
 ### Results and summary
 
 In the end, my goal of making moving with coordinates was achieved. The hardest part was making win condition class and implementing it into move method, so that it would check if any player has won after each move.
