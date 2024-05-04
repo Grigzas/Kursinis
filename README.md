@@ -3,7 +3,7 @@
 
 ### Introduction
 
-My application is a Tic-Tac-Toe game. To start the program, you have to run the code. To use the program, players will have to write input for every choice of action. In every step of the program there will be instructions explaining your options or telling what to do next. 
+My application is a Tic-Tac-Toe game. To start the program, you have to run the code. To use the program, players will have to write input for every choice of action. In every step there will be instructions explaining your options or telling what to do next. 
 
 ### Body/Analysis
 
@@ -108,4 +108,8 @@ class File:
 ```
 ### Results and summary
 
-In the end, my goal of making moving with coordinates was achieved. The hardest part was making win condition class and implementing it into move method, so that it would check if any player has won after each move.
+In the end, my goal of making moving with coordinates, similar to ''Battleship'' game has been achieved. However, for that to be fully implemented I had to code, so that coordinate system would be printed with the game board. The hardest part was making win condition class and implementing it into move method, so that after each move it would check if any of the players has won. Another challenge was to make it so that, if a player writes incorrect coordinates, the program would not break due to the error. 
+
+### Conclusion
+
+The outcome of this coursework is a fully functional Tic-Tac-Toe game. Although, in the future I could optimize the code where possible. Also implement game statistics or AI as an opponent.
